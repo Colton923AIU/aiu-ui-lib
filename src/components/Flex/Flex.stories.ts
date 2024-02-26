@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import Flex from './Flex'
 import { Boxes } from '../../children/Box'
-import type { alignment } from '@/lib/Html.types'
 
 const meta = {
   title: 'aiu-ui-lib/Flex',

@@ -9,18 +9,15 @@ export interface CardProps extends ICardOptions {
 }
 
 const Card = ({ children, styles, bg, radius, shadow, h, w }: CardProps) => {
-  const br = getBorderRadius(radius ?? 'xs')
-  const sh = getShadow(shadow ?? 'xs')
-
   return (
     <div
       style={{
         display: 'flex',
         width: w || undefined,
         height: h || undefined,
-        backgroundColor: bg || '#0065A4',
-        borderRadius: br,
-        boxShadow: sh,
+        backgroundColor: bg || '#0065A410',
+        borderRadius: getBorderRadius(radius),
+        boxShadow: getShadow(shadow),
         ...styles,
       }}
     >
