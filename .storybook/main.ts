@@ -1,7 +1,7 @@
 const path = require('path')
 
 module.exports = {
-  stories: ['../src/**/*.stories.ts'],
+  stories: ['../src/**/*.stories.ts', '../src/**/*.stories.tsx'],
   addons: [
     '@storybook/addon-webpack5-compiler-babel',
     '@storybook/addon-essentials',

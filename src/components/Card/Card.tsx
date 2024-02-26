@@ -9,8 +9,8 @@ export interface CardProps extends ICardOptions {
 }
 
 const Card = ({ children, styles, bg, radius, shadow, h, w }: CardProps) => {
-  const br = getBorderRadius(radius)
-  const sh = getShadow(shadow)
+  const br = getBorderRadius(radius ?? 'xs')
+  const sh = getShadow(shadow ?? 'xs')
 
   return (
     <div
