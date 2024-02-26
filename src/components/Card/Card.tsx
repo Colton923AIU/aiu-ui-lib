@@ -9,6 +9,9 @@ export interface CardProps extends ICardOptions {
 }
 
 const Card = ({ children, styles, bg, radius, shadow, h, w }: CardProps) => {
+  const br = getBorderRadius(radius)
+  const sh = getShadow(shadow)
+
   return (
     <div
       style={{
@@ -16,8 +19,8 @@ const Card = ({ children, styles, bg, radius, shadow, h, w }: CardProps) => {
         width: w || undefined,
         height: h || undefined,
         backgroundColor: bg || '#0065A4',
-        borderRadius: getBorderRadius(radius),
-        boxShadow: getShadow(shadow),
+        borderRadius: br,
+        boxShadow: sh,
         ...styles,
       }}
     >
