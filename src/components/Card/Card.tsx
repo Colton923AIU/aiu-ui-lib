@@ -1,8 +1,8 @@
 import * as React from 'react'
 
 import type { ICardOptions } from './Card.types'
-import { getBorderRadius } from '../../lib/getBorderRadius'
-import { getShadow } from '../../lib/getShadow'
+import { getBorderRadius } from '../_utils/getBorderRadius'
+import { getShadow } from '../_utils/getShadow'
 
 export interface CardProps extends ICardOptions {
   children: React.ReactNode
