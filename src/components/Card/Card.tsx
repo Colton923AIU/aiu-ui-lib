@@ -1,14 +1,10 @@
 import * as React from 'react'
 
-import type { ICardOptions } from './Card.types'
+import type { TCardProps } from './Card.types'
 import { getBorderRadius } from '../_utils/getBorderRadius'
 import { getShadow } from '../_utils/getShadow'
 
-export interface CardProps extends ICardOptions {
-  children: React.ReactNode
-}
-
-const Card = ({ children, styles, bg, radius, shadow, h, w }: CardProps) => {
+const Card = ({ children, styles, bg, radius, shadow, h, w }: TCardProps) => {
   return (
     <div
       style={{

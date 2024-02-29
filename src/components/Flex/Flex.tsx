@@ -1,12 +1,8 @@
 import * as React from 'react'
 
-import type { IFlexOptions } from './Flex.types'
+import type { TFlexProps } from './Flex.types'
 
-export interface FlexProps extends IFlexOptions {
-  children: React.ReactNode
-}
-
-const Flex = ({ styles, align, dir, justify, h, w, children }: FlexProps) => {
+const Flex = ({ styles, align, dir, justify, h, w, children }: TFlexProps) => {
   return (
     <div
       style={{
