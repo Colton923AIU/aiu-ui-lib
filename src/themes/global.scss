@@ -1,0 +1,603 @@
+$html-font-size: 16px;
+
+@function stripUnit($value) {
+  @return $value / ($value * 0 + 1);
+}
+
+@function rem($pxValue) {
+  @return #{stripUnit($pxValue) / stripUnit($html-font-size)}rem;
+}
+
+/* ----- CSS reset ----- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+button,
+select {
+  text-transform: none;
+}
+
+/* ----- Global styles ----- */
+body {
+  margin: 0;
+  font-family: var(--pec-font-family);
+  font-size: var(--pec-font-size-md);
+  line-height: var(--pec-line-height);
+  background-color: var(--pec-color-body);
+  color: var(--pec-color-text);
+
+  -webkit-font-smoothing: var(--pec-webkit-font-smoothing);
+  -moz-osx-font-smoothing: var(--pec-moz-font-smoothing);
+
+  @media screen and (max-device-width: 500px) {
+    -webkit-text-size-adjust: 100%;
+  }
+}
+
+[data-respect-reduced-motion] {
+  @media (prefers-reduced-motion: reduce) {
+    [data-reduce-motion] {
+      transition: none;
+      animation: none;
+    }
+  }
+}
+
+.pec-light-hidden {
+  @mixin light {
+    display: none;
+  }
+}
+
+.pec-dark-hidden {
+  @mixin dark {
+    display: none;
+  }
+}
+
+.pec-focus-auto {
+  &:focus-visible {
+    outline: rem(2px) solid var(--pec-primary-color-filled);
+    outline-offset: rem(2px);
+  }
+}
+
+.pec-focus-always {
+  &:focus {
+    outline: rem(2px) solid var(--pec-primary-color-filled);
+    outline-offset: rem(2px);
+  }
+}
+
+.pec-focus-never {
+  &:focus {
+    outline: none;
+  }
+}
+
+.pec-active {
+  &:active {
+    transform: translateY(rem(1px));
+  }
+}
+
+/* ----- Default CSS variables ----- */
+
+:root {
+  color-scheme: var(--pec-color-scheme);
+
+  --pec-z-index-app: 100;
+  --pec-z-index-modal: 200;
+  --pec-z-index-popover: 300;
+  --pec-z-index-overlay: 400;
+  --pec-z-index-max: 9999;
+
+  --pec-scale: 1;
+  --pec-cursor-type: default;
+  --pec-webkit-font-smoothing: antialiased;
+  --pec-color-scheme: light dark;
+  --pec-moz-font-smoothing: grayscale;
+  --pec-color-white: #fff;
+  --pec-color-black: #000;
+  --pec-line-height: 1.55;
+  --pec-font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
+  --pec-font-family-monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    Liberation Mono, Courier New, monospace;
+  --pec-font-family-headings: 'Open Sans', -apple-system, BlinkMacSystemFont,
+    Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
+  --pec-heading-font-weight: 700;
+  --pec-radius-default: calc(0.25rem * var(--pec-scale));
+  --pec-primary-color-0: var(--pec-color-blue-0);
+  --pec-primary-color-1: var(--pec-color-blue-1);
+  --pec-primary-color-2: var(--pec-color-blue-2);
+  --pec-primary-color-3: var(--pec-color-blue-3);
+  --pec-primary-color-4: var(--pec-color-blue-4);
+  --pec-primary-color-5: var(--pec-color-blue-5);
+  --pec-primary-color-6: var(--pec-color-blue-6);
+  --pec-primary-color-7: var(--pec-color-blue-7);
+  --pec-primary-color-8: var(--pec-color-blue-8);
+  --pec-primary-color-9: var(--pec-color-blue-9);
+  --pec-primary-color-filled: var(--pec-color-blue-filled);
+  --pec-primary-color-filled-hover: var(--pec-color-blue-filled-hover);
+  --pec-primary-color-light: var(--pec-color-blue-light);
+  --pec-primary-color-light-hover: var(--pec-color-blue-light-hover);
+  --pec-primary-color-light-color: var(--pec-color-blue-light-color);
+  --pec-breakpoint-xs: 36em;
+  --pec-breakpoint-sm: 48em;
+  --pec-breakpoint-md: 62em;
+  --pec-breakpoint-lg: 75em;
+  --pec-breakpoint-xl: 88em;
+  --pec-spacing-xs: calc(0.625rem * var(--pec-scale));
+  --pec-spacing-sm: calc(0.75rem * var(--pec-scale));
+  --pec-spacing-md: calc(1rem * var(--pec-scale));
+  --pec-spacing-lg: calc(1.25rem * var(--pec-scale));
+  --pec-spacing-xl: calc(2rem * var(--pec-scale));
+  --pec-font-size-xs: calc(0.75rem * var(--pec-scale));
+  --pec-font-size-sm: calc(0.875rem * var(--pec-scale));
+  --pec-font-size-md: calc(1rem * var(--pec-scale));
+  --pec-font-size-lg: calc(1.125rem * var(--pec-scale));
+  --pec-font-size-xl: calc(1.25rem * var(--pec-scale));
+  --pec-line-height-xs: 1.4;
+  --pec-line-height-sm: 1.45;
+  --pec-line-height-md: 1.55;
+  --pec-line-height-lg: 1.6;
+  --pec-line-height-xl: 1.65;
+  --pec-shadow-xs: 0 calc(0.0625rem * var(--pec-scale))
+      calc(0.1875rem * var(--pec-scale)) rgba(0, 0, 0, 0.05),
+    0 calc(0.0625rem * var(--pec-scale)) calc(0.125rem * var(--pec-scale))
+      rgba(0, 0, 0, 0.1);
+  --pec-shadow-sm: 0 calc(0.0625rem * var(--pec-scale))
+      calc(0.1875rem * var(--pec-scale)) rgba(0, 0, 0, 0.05),
+    rgba(0, 0, 0, 0.05) 0 calc(0.625rem * var(--pec-scale))
+      calc(0.9375rem * var(--pec-scale)) calc(-0.3125rem * var(--pec-scale)),
+    rgba(0, 0, 0, 0.04) 0 calc(0.4375rem * var(--pec-scale))
+      calc(0.4375rem * var(--pec-scale)) calc(-0.3125rem * var(--pec-scale));
+  --pec-shadow-md: 0 calc(0.0625rem * var(--pec-scale))
+      calc(0.1875rem * var(--pec-scale)) rgba(0, 0, 0, 0.05),
+    rgba(0, 0, 0, 0.05) 0 calc(1.25rem * var(--pec-scale))
+      calc(1.5625rem * var(--pec-scale)) calc(-0.3125rem * var(--pec-scale)),
+    rgba(0, 0, 0, 0.04) 0 calc(0.625rem * var(--pec-scale))
+      calc(0.625rem * var(--pec-scale)) calc(-0.3125rem * var(--pec-scale));
+  --pec-shadow-lg: 0 calc(0.0625rem * var(--pec-scale))
+      calc(0.1875rem * var(--pec-scale)) rgba(0, 0, 0, 0.05),
+    rgba(0, 0, 0, 0.05) 0 calc(1.75rem * var(--pec-scale))
+      calc(1.4375rem * var(--pec-scale)) calc(-0.4375rem * var(--pec-scale)),
+    rgba(0, 0, 0, 0.04) 0 calc(0.75rem * var(--pec-scale))
+      calc(0.75rem * var(--pec-scale)) calc(-0.4375rem * var(--pec-scale));
+  --pec-shadow-xl: 0 calc(0.0625rem * var(--pec-scale))
+      calc(0.1875rem * var(--pec-scale)) rgba(0, 0, 0, 0.05),
+    rgba(0, 0, 0, 0.05) 0 calc(2.25rem * var(--pec-scale))
+      calc(1.75rem * var(--pec-scale)) calc(-0.4375rem * var(--pec-scale)),
+    rgba(0, 0, 0, 0.04) 0 calc(1.0625rem * var(--pec-scale))
+      calc(1.0625rem * var(--pec-scale)) calc(-0.4375rem * var(--pec-scale));
+  --pec-radius-xs: calc(0.125rem * var(--pec-scale));
+  --pec-radius-sm: calc(0.25rem * var(--pec-scale));
+  --pec-radius-md: calc(0.5rem * var(--pec-scale));
+  --pec-radius-lg: calc(1rem * var(--pec-scale));
+  --pec-radius-xl: calc(2rem * var(--pec-scale));
+  --pec-color-dark-0: #c9c9c9;
+  --pec-color-dark-1: #b8b8b8;
+  --pec-color-dark-2: #828282;
+  --pec-color-dark-3: #696969;
+  --pec-color-dark-4: #424242;
+  --pec-color-dark-5: #3b3b3b;
+  --pec-color-dark-6: #2e2e2e;
+  --pec-color-dark-7: #242424;
+  --pec-color-dark-8: #1f1f1f;
+  --pec-color-dark-9: #141414;
+  --pec-color-gray-0: #f8f9fa;
+  --pec-color-gray-1: #f1f3f5;
+  --pec-color-gray-2: #e9ecef;
+  --pec-color-gray-3: #dee2e6;
+  --pec-color-gray-4: #ced4da;
+  --pec-color-gray-5: #adb5bd;
+  --pec-color-gray-6: #868e96;
+  --pec-color-gray-7: #495057;
+  --pec-color-gray-8: #343a40;
+  --pec-color-gray-9: #212529;
+  --pec-color-red-0: #fff5f5;
+  --pec-color-red-1: #ffe3e3;
+  --pec-color-red-2: #ffc9c9;
+  --pec-color-red-3: #ffa8a8;
+  --pec-color-red-4: #ff8787;
+  --pec-color-red-5: #ff6b6b;
+  --pec-color-red-6: #fa5252;
+  --pec-color-red-7: #f03e3e;
+  --pec-color-red-8: #e03131;
+  --pec-color-red-9: #c92a2a;
+  --pec-color-pink-0: #fff0f6;
+  --pec-color-pink-1: #ffdeeb;
+  --pec-color-pink-2: #fcc2d7;
+  --pec-color-pink-3: #faa2c1;
+  --pec-color-pink-4: #f783ac;
+  --pec-color-pink-5: #f06595;
+  --pec-color-pink-6: #e64980;
+  --pec-color-pink-7: #d6336c;
+  --pec-color-pink-8: #c2255c;
+  --pec-color-pink-9: #a61e4d;
+  --pec-color-grape-0: #f8f0fc;
+  --pec-color-grape-1: #f3d9fa;
+  --pec-color-grape-2: #eebefa;
+  --pec-color-grape-3: #e599f7;
+  --pec-color-grape-4: #da77f2;
+  --pec-color-grape-5: #cc5de8;
+  --pec-color-grape-6: #be4bdb;
+  --pec-color-grape-7: #ae3ec9;
+  --pec-color-grape-8: #9c36b5;
+  --pec-color-grape-9: #862e9c;
+  --pec-color-violet-0: #f3f0ff;
+  --pec-color-violet-1: #e5dbff;
+  --pec-color-violet-2: #d0bfff;
+  --pec-color-violet-3: #b197fc;
+  --pec-color-violet-4: #9775fa;
+  --pec-color-violet-5: #845ef7;
+  --pec-color-violet-6: #7950f2;
+  --pec-color-violet-7: #7048e8;
+  --pec-color-violet-8: #6741d9;
+  --pec-color-violet-9: #5f3dc4;
+  --pec-color-indigo-0: #edf2ff;
+  --pec-color-indigo-1: #dbe4ff;
+  --pec-color-indigo-2: #bac8ff;
+  --pec-color-indigo-3: #91a7ff;
+  --pec-color-indigo-4: #748ffc;
+  --pec-color-indigo-5: #5c7cfa;
+  --pec-color-indigo-6: #4c6ef5;
+  --pec-color-indigo-7: #4263eb;
+  --pec-color-indigo-8: #3b5bdb;
+  --pec-color-indigo-9: #364fc7;
+  --pec-color-blue-0: #ebf7ff;
+  --pec-color-blue-1: #d6ecfa;
+  --pec-color-blue-2: #a7d8f8;
+  --pec-color-blue-3: #76c3f6;
+  --pec-color-blue-4: #54b1f5;
+  --pec-color-blue-5: #42a5f5;
+  --pec-color-blue-6: #39a0f6;
+  --pec-color-blue-7: #2d8bdb;
+  --pec-color-blue-8: #217cc4;
+  --pec-color-blue-9: #0065a4;
+  --pec-color-cyan-0: #e3fafc;
+  --pec-color-cyan-1: #c5f6fa;
+  --pec-color-cyan-2: #99e9f2;
+  --pec-color-cyan-3: #66d9e8;
+  --pec-color-cyan-4: #3bc9db;
+  --pec-color-cyan-5: #22b8cf;
+  --pec-color-cyan-6: #15aabf;
+  --pec-color-cyan-7: #1098ad;
+  --pec-color-cyan-8: #0c8599;
+  --pec-color-cyan-9: #0b7285;
+  --pec-color-teal-0: #e6fcf5;
+  --pec-color-teal-1: #c3fae8;
+  --pec-color-teal-2: #96f2d7;
+  --pec-color-teal-3: #63e6be;
+  --pec-color-teal-4: #38d9a9;
+  --pec-color-teal-5: #20c997;
+  --pec-color-teal-6: #12b886;
+  --pec-color-teal-7: #0ca678;
+  --pec-color-teal-8: #099268;
+  --pec-color-teal-9: #087f5b;
+  --pec-color-green-0: #ebfbee;
+  --pec-color-green-1: #d3f9d8;
+  --pec-color-green-2: #b2f2bb;
+  --pec-color-green-3: #8ce99a;
+  --pec-color-green-4: #69db7c;
+  --pec-color-green-5: #51cf66;
+  --pec-color-green-6: #40c057;
+  --pec-color-green-7: #37b24d;
+  --pec-color-green-8: #2f9e44;
+  --pec-color-green-9: #2b8a3e;
+  --pec-color-lime-0: #f4fce3;
+  --pec-color-lime-1: #e9fac8;
+  --pec-color-lime-2: #d8f5a2;
+  --pec-color-lime-3: #c0eb75;
+  --pec-color-lime-4: #a9e34b;
+  --pec-color-lime-5: #94d82d;
+  --pec-color-lime-6: #82c91e;
+  --pec-color-lime-7: #74b816;
+  --pec-color-lime-8: #66a80f;
+  --pec-color-lime-9: #5c940d;
+  --pec-color-yellow-0: #fff9db;
+  --pec-color-yellow-1: #fff3bf;
+  --pec-color-yellow-2: #ffec99;
+  --pec-color-yellow-3: #ffe066;
+  --pec-color-yellow-4: #ffd43b;
+  --pec-color-yellow-5: #fcc419;
+  --pec-color-yellow-6: #fab005;
+  --pec-color-yellow-7: #f59f00;
+  --pec-color-yellow-8: #f08c00;
+  --pec-color-yellow-9: #e67700;
+  --pec-color-orange-0: #fff4e6;
+  --pec-color-orange-1: #ffe8cc;
+  --pec-color-orange-2: #ffd8a8;
+  --pec-color-orange-3: #ffc078;
+  --pec-color-orange-4: #ffa94d;
+  --pec-color-orange-5: #ff922b;
+  --pec-color-orange-6: #fd7e14;
+  --pec-color-orange-7: #f76707;
+  --pec-color-orange-8: #e8590c;
+  --pec-color-orange-9: #d9480f;
+  --pec-h1-font-size: calc(2.125rem * var(--pec-scale));
+  --pec-h1-line-height: 1.3;
+  --pec-h1-font-weight: 700;
+  --pec-h2-font-size: calc(1.625rem * var(--pec-scale));
+  --pec-h2-line-height: 1.35;
+  --pec-h2-font-weight: 700;
+  --pec-h3-font-size: calc(1.375rem * var(--pec-scale));
+  --pec-h3-line-height: 1.4;
+  --pec-h3-font-weight: 700;
+  --pec-h4-font-size: calc(1.125rem * var(--pec-scale));
+  --pec-h4-line-height: 1.45;
+  --pec-h4-font-weight: 700;
+  --pec-h5-font-size: calc(1rem * var(--pec-scale));
+  --pec-h5-line-height: 1.5;
+  --pec-h5-font-weight: 700;
+  --pec-h6-font-size: calc(0.875rem * var(--pec-scale));
+  --pec-h6-line-height: 1.5;
+  --pec-h6-font-weight: 700;
+}
+
+:root[data-pec-color-scheme='dark'] {
+  --pec-color-scheme: dark;
+  --pec-primary-color-contrast: var(--pec-color-white);
+  --pec-color-bright: var(--pec-color-white);
+  --pec-color-text: var(--pec-color-dark-0);
+  --pec-color-body: var(--pec-color-dark-7);
+  --pec-color-error: var(--pec-color-red-8);
+  --pec-color-placeholder: var(--pec-color-dark-3);
+  --pec-color-anchor: var(--pec-color-blue-4);
+  --pec-color-default: var(--pec-color-dark-6);
+  --pec-color-default-hover: var(--pec-color-dark-5);
+  --pec-color-default-color: var(--pec-color-white);
+  --pec-color-default-border: var(--pec-color-dark-4);
+  --pec-color-dimmed: var(--pec-color-dark-2);
+  --pec-color-dark-text: var(--pec-color-dark-4);
+  --pec-color-dark-filled: var(--pec-color-dark-8);
+  --pec-color-dark-filled-hover: var(--pec-color-dark-7);
+  --pec-color-dark-light: rgba(36, 36, 36, 0.15);
+  --pec-color-dark-light-hover: rgba(36, 36, 36, 0.2);
+  --pec-color-dark-light-color: var(--pec-color-dark-3);
+  --pec-color-dark-outline: var(--pec-color-dark-4);
+  --pec-color-dark-outline-hover: rgba(36, 36, 36, 0.05);
+  --pec-color-gray-text: var(--pec-color-gray-4);
+  --pec-color-gray-filled: var(--pec-color-gray-8);
+  --pec-color-gray-filled-hover: var(--pec-color-gray-9);
+  --pec-color-gray-light: rgba(134, 142, 150, 0.15);
+  --pec-color-gray-light-hover: rgba(134, 142, 150, 0.2);
+  --pec-color-gray-light-color: var(--pec-color-gray-3);
+  --pec-color-gray-outline: var(--pec-color-gray-4);
+  --pec-color-gray-outline-hover: rgba(206, 212, 218, 0.05);
+  --pec-color-red-text: var(--pec-color-red-4);
+  --pec-color-red-filled: var(--pec-color-red-8);
+  --pec-color-red-filled-hover: var(--pec-color-red-9);
+  --pec-color-red-light: rgba(250, 82, 82, 0.15);
+  --pec-color-red-light-hover: rgba(250, 82, 82, 0.2);
+  --pec-color-red-light-color: var(--pec-color-red-3);
+  --pec-color-red-outline: var(--pec-color-red-4);
+  --pec-color-red-outline-hover: rgba(255, 135, 135, 0.05);
+  --pec-color-pink-text: var(--pec-color-pink-4);
+  --pec-color-pink-filled: var(--pec-color-pink-8);
+  --pec-color-pink-filled-hover: var(--pec-color-pink-9);
+  --pec-color-pink-light: rgba(230, 73, 128, 0.15);
+  --pec-color-pink-light-hover: rgba(230, 73, 128, 0.2);
+  --pec-color-pink-light-color: var(--pec-color-pink-3);
+  --pec-color-pink-outline: var(--pec-color-pink-4);
+  --pec-color-pink-outline-hover: rgba(247, 131, 172, 0.05);
+  --pec-color-grape-text: var(--pec-color-grape-4);
+  --pec-color-grape-filled: var(--pec-color-grape-8);
+  --pec-color-grape-filled-hover: var(--pec-color-grape-9);
+  --pec-color-grape-light: rgba(190, 75, 219, 0.15);
+  --pec-color-grape-light-hover: rgba(190, 75, 219, 0.2);
+  --pec-color-grape-light-color: var(--pec-color-grape-3);
+  --pec-color-grape-outline: var(--pec-color-grape-4);
+  --pec-color-grape-outline-hover: rgba(218, 119, 242, 0.05);
+  --pec-color-violet-text: var(--pec-color-violet-4);
+  --pec-color-violet-filled: var(--pec-color-violet-8);
+  --pec-color-violet-filled-hover: var(--pec-color-violet-9);
+  --pec-color-violet-light: rgba(121, 80, 242, 0.15);
+  --pec-color-violet-light-hover: rgba(121, 80, 242, 0.2);
+  --pec-color-violet-light-color: var(--pec-color-violet-3);
+  --pec-color-violet-outline: var(--pec-color-violet-4);
+  --pec-color-violet-outline-hover: rgba(151, 117, 250, 0.05);
+  --pec-color-indigo-text: var(--pec-color-indigo-4);
+  --pec-color-indigo-filled: var(--pec-color-indigo-8);
+  --pec-color-indigo-filled-hover: var(--pec-color-indigo-9);
+  --pec-color-indigo-light: rgba(76, 110, 245, 0.15);
+  --pec-color-indigo-light-hover: rgba(76, 110, 245, 0.2);
+  --pec-color-indigo-light-color: var(--pec-color-indigo-3);
+  --pec-color-indigo-outline: var(--pec-color-indigo-4);
+  --pec-color-indigo-outline-hover: rgba(116, 143, 252, 0.05);
+  --pec-color-blue-text: var(--pec-color-blue-4);
+  --pec-color-blue-filled: var(--pec-color-blue-8);
+  --pec-color-blue-filled-hover: var(--pec-color-blue-9);
+  --pec-color-blue-light: rgba(34, 139, 230, 0.15);
+  --pec-color-blue-light-hover: rgba(34, 139, 230, 0.2);
+  --pec-color-blue-light-color: var(--pec-color-blue-3);
+  --pec-color-blue-outline: var(--pec-color-blue-4);
+  --pec-color-blue-outline-hover: rgba(77, 171, 247, 0.05);
+  --pec-color-cyan-text: var(--pec-color-cyan-4);
+  --pec-color-cyan-filled: var(--pec-color-cyan-8);
+  --pec-color-cyan-filled-hover: var(--pec-color-cyan-9);
+  --pec-color-cyan-light: rgba(21, 170, 191, 0.15);
+  --pec-color-cyan-light-hover: rgba(21, 170, 191, 0.2);
+  --pec-color-cyan-light-color: var(--pec-color-cyan-3);
+  --pec-color-cyan-outline: var(--pec-color-cyan-4);
+  --pec-color-cyan-outline-hover: rgba(59, 201, 219, 0.05);
+  --pec-color-teal-text: var(--pec-color-teal-4);
+  --pec-color-teal-filled: var(--pec-color-teal-8);
+  --pec-color-teal-filled-hover: var(--pec-color-teal-9);
+  --pec-color-teal-light: rgba(18, 184, 134, 0.15);
+  --pec-color-teal-light-hover: rgba(18, 184, 134, 0.2);
+  --pec-color-teal-light-color: var(--pec-color-teal-3);
+  --pec-color-teal-outline: var(--pec-color-teal-4);
+  --pec-color-teal-outline-hover: rgba(56, 217, 169, 0.05);
+  --pec-color-green-text: var(--pec-color-green-4);
+  --pec-color-green-filled: var(--pec-color-green-8);
+  --pec-color-green-filled-hover: var(--pec-color-green-9);
+  --pec-color-green-light: rgba(64, 192, 87, 0.15);
+  --pec-color-green-light-hover: rgba(64, 192, 87, 0.2);
+  --pec-color-green-light-color: var(--pec-color-green-3);
+  --pec-color-green-outline: var(--pec-color-green-4);
+  --pec-color-green-outline-hover: rgba(105, 219, 124, 0.05);
+  --pec-color-lime-text: var(--pec-color-lime-4);
+  --pec-color-lime-filled: var(--pec-color-lime-8);
+  --pec-color-lime-filled-hover: var(--pec-color-lime-9);
+  --pec-color-lime-light: rgba(130, 201, 30, 0.15);
+  --pec-color-lime-light-hover: rgba(130, 201, 30, 0.2);
+  --pec-color-lime-light-color: var(--pec-color-lime-3);
+  --pec-color-lime-outline: var(--pec-color-lime-4);
+  --pec-color-lime-outline-hover: rgba(169, 227, 75, 0.05);
+  --pec-color-yellow-text: var(--pec-color-yellow-4);
+  --pec-color-yellow-filled: var(--pec-color-yellow-8);
+  --pec-color-yellow-filled-hover: var(--pec-color-yellow-9);
+  --pec-color-yellow-light: rgba(250, 176, 5, 0.15);
+  --pec-color-yellow-light-hover: rgba(250, 176, 5, 0.2);
+  --pec-color-yellow-light-color: var(--pec-color-yellow-3);
+  --pec-color-yellow-outline: var(--pec-color-yellow-4);
+  --pec-color-yellow-outline-hover: rgba(255, 212, 59, 0.05);
+  --pec-color-orange-text: var(--pec-color-orange-4);
+  --pec-color-orange-filled: var(--pec-color-orange-8);
+  --pec-color-orange-filled-hover: var(--pec-color-orange-9);
+  --pec-color-orange-light: rgba(253, 126, 20, 0.15);
+  --pec-color-orange-light-hover: rgba(253, 126, 20, 0.2);
+  --pec-color-orange-light-color: var(--pec-color-orange-3);
+  --pec-color-orange-outline: var(--pec-color-orange-4);
+  --pec-color-orange-outline-hover: rgba(255, 169, 77, 0.05);
+}
+
+:root[data-pec-color-scheme='light'] {
+  --pec-color-scheme: light;
+  --pec-color-bright: var(--pec-color-black);
+  --pec-color-text: var(--pec-color-black);
+  --pec-color-body: var(--pec-color-white);
+  --pec-primary-color-contrast: var(--pec-color-white);
+  --pec-color-error: var(--pec-color-red-6);
+  --pec-color-placeholder: var(--pec-color-gray-5);
+  --pec-color-anchor: var(--pec-primary-color-filled);
+  --pec-color-default: var(--pec-color-white);
+  --pec-color-default-hover: var(--pec-color-gray-0);
+  --pec-color-default-color: var(--pec-color-gray-9);
+  --pec-color-default-border: var(--pec-color-gray-4);
+  --pec-color-dimmed: var(--pec-color-gray-6);
+  --pec-color-dark-text: var(--pec-color-dark-filled);
+  --pec-color-dark-filled: var(--pec-color-dark-6);
+  --pec-color-dark-filled-hover: var(--pec-color-dark-7);
+  --pec-color-dark-light: rgba(56, 56, 56, 0.1);
+  --pec-color-dark-light-hover: rgba(56, 56, 56, 0.12);
+  --pec-color-dark-light-color: var(--pec-color-dark-6);
+  --pec-color-dark-outline: var(--pec-color-dark-6);
+  --pec-color-dark-outline-hover: rgba(56, 56, 56, 0.05);
+  --pec-color-gray-text: var(--pec-color-gray-filled);
+  --pec-color-gray-filled: var(--pec-color-gray-6);
+  --pec-color-gray-filled-hover: var(--pec-color-gray-7);
+  --pec-color-gray-light: rgba(134, 142, 150, 0.1);
+  --pec-color-gray-light-hover: rgba(134, 142, 150, 0.12);
+  --pec-color-gray-light-color: var(--pec-color-gray-6);
+  --pec-color-gray-outline: var(--pec-color-gray-6);
+  --pec-color-gray-outline-hover: rgba(134, 142, 150, 0.05);
+  --pec-color-red-text: var(--pec-color-red-filled);
+  --pec-color-red-filled: var(--pec-color-red-6);
+  --pec-color-red-filled-hover: var(--pec-color-red-7);
+  --pec-color-red-light: rgba(250, 82, 82, 0.1);
+  --pec-color-red-light-hover: rgba(250, 82, 82, 0.12);
+  --pec-color-red-light-color: var(--pec-color-red-6);
+  --pec-color-red-outline: var(--pec-color-red-6);
+  --pec-color-red-outline-hover: rgba(250, 82, 82, 0.05);
+  --pec-color-pink-text: var(--pec-color-pink-filled);
+  --pec-color-pink-filled: var(--pec-color-pink-6);
+  --pec-color-pink-filled-hover: var(--pec-color-pink-7);
+  --pec-color-pink-light: rgba(230, 73, 128, 0.1);
+  --pec-color-pink-light-hover: rgba(230, 73, 128, 0.12);
+  --pec-color-pink-light-color: var(--pec-color-pink-6);
+  --pec-color-pink-outline: var(--pec-color-pink-6);
+  --pec-color-pink-outline-hover: rgba(230, 73, 128, 0.05);
+  --pec-color-grape-text: var(--pec-color-grape-filled);
+  --pec-color-grape-filled: var(--pec-color-grape-6);
+  --pec-color-grape-filled-hover: var(--pec-color-grape-7);
+  --pec-color-grape-light: rgba(190, 75, 219, 0.1);
+  --pec-color-grape-light-hover: rgba(190, 75, 219, 0.12);
+  --pec-color-grape-light-color: var(--pec-color-grape-6);
+  --pec-color-grape-outline: var(--pec-color-grape-6);
+  --pec-color-grape-outline-hover: rgba(190, 75, 219, 0.05);
+  --pec-color-violet-text: var(--pec-color-violet-filled);
+  --pec-color-violet-filled: var(--pec-color-violet-6);
+  --pec-color-violet-filled-hover: var(--pec-color-violet-7);
+  --pec-color-violet-light: rgba(121, 80, 242, 0.1);
+  --pec-color-violet-light-hover: rgba(121, 80, 242, 0.12);
+  --pec-color-violet-light-color: var(--pec-color-violet-6);
+  --pec-color-violet-outline: var(--pec-color-violet-6);
+  --pec-color-violet-outline-hover: rgba(121, 80, 242, 0.05);
+  --pec-color-indigo-text: var(--pec-color-indigo-filled);
+  --pec-color-indigo-filled: var(--pec-color-indigo-6);
+  --pec-color-indigo-filled-hover: var(--pec-color-indigo-7);
+  --pec-color-indigo-light: rgba(76, 110, 245, 0.1);
+  --pec-color-indigo-light-hover: rgba(76, 110, 245, 0.12);
+  --pec-color-indigo-light-color: var(--pec-color-indigo-6);
+  --pec-color-indigo-outline: var(--pec-color-indigo-6);
+  --pec-color-indigo-outline-hover: rgba(76, 110, 245, 0.05);
+  --pec-color-blue-text: var(--pec-color-blue-filled);
+  --pec-color-blue-filled: var(--pec-color-blue-6);
+  --pec-color-blue-filled-hover: var(--pec-color-blue-7);
+  --pec-color-blue-light: rgba(34, 139, 230, 0.1);
+  --pec-color-blue-light-hover: rgba(34, 139, 230, 0.12);
+  --pec-color-blue-light-color: var(--pec-color-blue-6);
+  --pec-color-blue-outline: var(--pec-color-blue-6);
+  --pec-color-blue-outline-hover: rgba(34, 139, 230, 0.05);
+  --pec-color-cyan-text: var(--pec-color-cyan-filled);
+  --pec-color-cyan-filled: var(--pec-color-cyan-6);
+  --pec-color-cyan-filled-hover: var(--pec-color-cyan-7);
+  --pec-color-cyan-light: rgba(21, 170, 191, 0.1);
+  --pec-color-cyan-light-hover: rgba(21, 170, 191, 0.12);
+  --pec-color-cyan-light-color: var(--pec-color-cyan-6);
+  --pec-color-cyan-outline: var(--pec-color-cyan-6);
+  --pec-color-cyan-outline-hover: rgba(21, 170, 191, 0.05);
+  --pec-color-teal-text: var(--pec-color-teal-filled);
+  --pec-color-teal-filled: var(--pec-color-teal-6);
+  --pec-color-teal-filled-hover: var(--pec-color-teal-7);
+  --pec-color-teal-light: rgba(18, 184, 134, 0.1);
+  --pec-color-teal-light-hover: rgba(18, 184, 134, 0.12);
+  --pec-color-teal-light-color: var(--pec-color-teal-6);
+  --pec-color-teal-outline: var(--pec-color-teal-6);
+  --pec-color-teal-outline-hover: rgba(18, 184, 134, 0.05);
+  --pec-color-green-text: var(--pec-color-green-filled);
+  --pec-color-green-filled: var(--pec-color-green-6);
+  --pec-color-green-filled-hover: var(--pec-color-green-7);
+  --pec-color-green-light: rgba(64, 192, 87, 0.1);
+  --pec-color-green-light-hover: rgba(64, 192, 87, 0.12);
+  --pec-color-green-light-color: var(--pec-color-green-6);
+  --pec-color-green-outline: var(--pec-color-green-6);
+  --pec-color-green-outline-hover: rgba(64, 192, 87, 0.05);
+  --pec-color-lime-text: var(--pec-color-lime-filled);
+  --pec-color-lime-filled: var(--pec-color-lime-6);
+  --pec-color-lime-filled-hover: var(--pec-color-lime-7);
+  --pec-color-lime-light: rgba(130, 201, 30, 0.1);
+  --pec-color-lime-light-hover: rgba(130, 201, 30, 0.12);
+  --pec-color-lime-light-color: var(--pec-color-lime-6);
+  --pec-color-lime-outline: var(--pec-color-lime-6);
+  --pec-color-lime-outline-hover: rgba(130, 201, 30, 0.05);
+  --pec-color-yellow-text: var(--pec-color-yellow-filled);
+  --pec-color-yellow-filled: var(--pec-color-yellow-6);
+  --pec-color-yellow-filled-hover: var(--pec-color-yellow-7);
+  --pec-color-yellow-light: rgba(250, 176, 5, 0.1);
+  --pec-color-yellow-light-hover: rgba(250, 176, 5, 0.12);
+  --pec-color-yellow-light-color: var(--pec-color-yellow-6);
+  --pec-color-yellow-outline: var(--pec-color-yellow-6);
+  --pec-color-yellow-outline-hover: rgba(250, 176, 5, 0.05);
+  --pec-color-orange-text: var(--pec-color-orange-filled);
+  --pec-color-orange-filled: var(--pec-color-orange-6);
+  --pec-color-orange-filled-hover: var(--pec-color-orange-7);
+  --pec-color-orange-light: rgba(253, 126, 20, 0.1);
+  --pec-color-orange-light-hover: rgba(253, 126, 20, 0.12);
+  --pec-color-orange-light-color: var(--pec-color-orange-6);
+  --pec-color-orange-outline: var(--pec-color-orange-6);
+  --pec-color-orange-outline-hover: rgba(253, 126, 20, 0.05);
+}

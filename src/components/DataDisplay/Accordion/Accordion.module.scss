@@ -1,0 +1,12 @@
+.animatedIcon {
+  animation: active 0.2s ease-in forwards;
+
+  @keyframes active {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(180deg);
+    }
+  }
+}

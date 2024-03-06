@@ -9,6 +9,7 @@ const meta = {
 } satisfies Meta<typeof Flex>
 
 export default meta
+
 type Story = StoryObj<typeof meta>
 
 export const Row: Story = {

@@ -2,6 +2,7 @@ import * as React from 'react'
 import type { Slide } from './Slides'
 import Card from '../Card'
 import Flex from '../Flex'
+import Banner from '../Banner'
 
 const ExampleSlide = (int: number) => {
   return (
@@ -18,6 +19,7 @@ const ExampleSlide = (int: number) => {
         minHeight: '600px',
       }}
     >
+      <Banner bannerTitle="Example of the Banner Component" />
       <Card radius="sm" shadow="xs" bg={'#fafafa'}>
         <Flex>
           <h1
